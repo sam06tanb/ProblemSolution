@@ -1,5 +1,7 @@
 import model.entities.CarRental;
 import model.entities.Vehicle;
+import model.services.BrazilTaxService;
+import model.services.RentalService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,6 +27,20 @@ public class Main {
 
         CarRental cr = new CarRental(start, finish, new Vehicle(CarModel));
 
+        System.out.print("Enter the price per hour: ");
+        double pricePerHour = sc.nextDouble();
+        System.out.print("Enter the price per day: ");
+        double pricePerDay = sc.nextDouble();
 
+        RentalService rentalService = new RentalService(pricePerHour, pricePerDay, new BrazilTaxService());
+
+        rentalService.processInvoice(cr);
+
+        System.out.println("Invoice: ");
+        System.out.println("Basic payment: " + cr.getInvoice().getBasicPayment());
+        System.out.println("Tax: " + cr.getInvoice().getTax());
+        System.out.println("Total payment: " + cr.getInvoice().getTotalPayment());
+
+        sc.close();
         }
     }
